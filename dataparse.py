@@ -1,4 +1,4 @@
-
+import argparse
 # import matplotlib.pyplot as plt
 # from matplotlib import gridspec
 import csv
@@ -139,7 +139,7 @@ def can_to_csv(f_name, csvfile_name):
                 elif(data[0] == 0x513):
                     row["rl"] = data[1] | (data[2] << 8)
                     row["rr"] = data[3] | (data[4] << 8)
-                    lastws = (row["rl"] + row["rr"]) / 2
+                    lastws = ((row["rl"] + row["rr"]) / 2) * (18*0.0029744599)
                     rearws[0].append(timestamp)
                     rearws[1].append(lastws)
                     if(len(rpm[0]) > 0 and rpm[1][-1] != 0):
@@ -211,6 +211,7 @@ def can_to_csv(f_name, csvfile_name):
                     lasttime = timestamp
 
     return start,crank,tps,rpm,boost,speed,shiftup,shiftdown,rearws,clutch,brake,batt,coolt,curr,pdmeFlags,pdmaFlags,ratio, che_curr, cha_curr, che, cha
+
 
             # fig = plt.figure(0)
             # fig.text(0.5, 0.04, 'Time(s)', ha='center', va='center')
@@ -322,7 +323,6 @@ def can_to_csv(f_name, csvfile_name):
             # plt.show()
 
 if __name__ == "__main__":
-    import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("fin", help="path to file containing CAN messages")
     parser.add_argument("fout", help="path to destination CSV file")
